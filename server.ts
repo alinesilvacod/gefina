@@ -49,20 +49,31 @@ const invoices: Invoice[] = [
 
 const app = express();
 
-app.use(function(requet,response, next) {
-console.log(requet.method + ' ' + requet.url);
-next();
+app.use(function (requet, response, next) {
+  console.log(requet.method + ' ' + requet.url);
+  next();
 });
 app.get('api/health', function (request, response) {
-    response.status(200).json({ status: 'ok'});
+  response.status(200).json({ status: 'ok' });
 
 });
-app.get('/api/invoices', function (request,response) {
-    response.status(200).json(invoices);
+app.get('/api/invoices', function (request, response) {
+  response.status(200).json(invoices);
+});
+app.get('/api/invoice/:id', function (request, response) {
+
+  const id = +request.params.id;
+  for (let i = 0; i < invoices.length; i++) {
+    if (invoices[i].id === id) {
+      response.status(200).json(invoices[i]);
+      return;
+    }
+  }
+  response.status(404).json({ error: { messagr: ' fatura não encontrada' } });
 });
 
 app.use(function (request, response) {
-    response.status(404).json ({ message: 'recurso não encontrado' });
+  response.status(404).json({ message: 'recurso não encontrado' });
 });
 app.listen(3000);
 
