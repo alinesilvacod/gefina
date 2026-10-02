@@ -1,13 +1,14 @@
-    {
-     "name": "gefina",
-    "version": "0.0.0",
-    "description": "sistema de gestão de contas a receber",
-    "author": "aline",
-    "scripts": {
-        "check": "biome check./"
-    },
-    "devDependencies": {
-        "biomejs/biome": "2.5.15"
-    }
-    }
-    
+{
+  "name": "gefina",
+  "version": "0.0.0",
+  "description": "sistema de gestão de contas a receber",
+  "author": "aline",
+  "scripts": {
+    "check": "biome check ./",
+    "fix": "biome check --write ./",
+    "fix:unsafe": "biome check --write --unsafe ./"
+  },
+  "devDependencies": {
+    "biomejs/biome": "2.5.15"
+  }
+}

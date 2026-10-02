@@ -1,20 +1,20 @@
 {
-    "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-"formatter": {
-    "indentStyle":"space",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "formatter": {
+    "indentStyle": "space",
     "indentWidth": 2,
     "lineWidth": 70
-},
-"javascript": {
+  },
+  "javascript": {
     "formatter": {
-        "quoteStyle":"single",
-        "semicolons":"always"
+      "quoteStyle": "single",
+      "semicolons": "always"
     }
-},
-"linter": {
+  },
+  "linter": {
     "enabled": true,
     "rules": {
-        "recommended": true
-    } 
-}
+      "preset": "recommended"
+    }
+  }
 }
