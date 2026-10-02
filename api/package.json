@@ -1,8 +1,10 @@
 {
   "type": "module",
   "scripts": {
-    "check": "tsc --noEmit./",
-    "dev": "node -- watch ./server.ts"
+"check": "tsc --noEmit",
+    "dev": "node --watch ./server.ts"
+    
+    
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
