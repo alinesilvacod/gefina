@@ -4,11 +4,11 @@ import invoices from './invoice.data.ts';
 
 const router = Router();
 
-router.get('/api/invoices', (_request, response) => {
+router.get('/', (_request, response) => {
   response.status(200).json(invoices);
 });
 
-router.get('/api/invoice/:id', (request, response) => {
+router.get('/:id', (request, response) => {
   const id = +request.params.id;
   for (let i = 0; i < invoices.length; i++) {
     if (invoices[i].id === id) {
@@ -18,7 +18,7 @@ router.get('/api/invoice/:id', (request, response) => {
   }
   response
     .status(404)
-    .json({ error: { messagr: ' fatura não encontrada' } });
+    .json({ error: { message: ' fatura não encontrada' } });
 });
 
 export default router;

@@ -9,6 +9,6 @@
     "fix:unsafe": "biome check --write --unsafe ./"
   },
   "devDependencies": {
-    "biomejs/biome": "2.5.15"
+    "@biomejs/biome": "2.5.15"
   }
 }

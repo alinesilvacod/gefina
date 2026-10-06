@@ -10,8 +10,9 @@ app.use((requet, _response, next) => {
 });
 app.get('api/health', (_request, response) => {
   response.status(200).json({ status: 'ok' });
-  app.use('/api/invoice', invoices);
 });
+
+app.use('/api/invoices', invoices);
 
 app.use((_request, response) => {
   response.status(404).json({ message: 'recurso não encontrado' });
