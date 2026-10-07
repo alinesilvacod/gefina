@@ -6,7 +6,7 @@ import invoices from './invoice.route.ts';
 
 const app = express();
 
-const dist = path.join (import.meta.dirname, '..', 'web', 'dist');
+const dist = path.join(import.meta.dirname, '..', 'web', 'dist');
 
 app.use((requet, _response, next) => {
   console.log(`${requet.method} ${requet.url}`);
