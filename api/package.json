@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "start": "node ./server.ts",
 "check": "tsc --noEmit",
     "dev": "node --watch ./server.ts"
     
