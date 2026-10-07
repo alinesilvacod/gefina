@@ -1,8 +1,12 @@
 import express from 'express';
 
+import path, { join } from 'node:path';
+
 import invoices from './invoice.route.ts';
 
 const app = express();
+
+const dist = path.join (import.meta.dirname, '..', 'web', 'dist');
 
 app.use((requet, _response, next) => {
   console.log(`${requet.method} ${requet.url}`);
@@ -13,6 +17,8 @@ app.get('api/health', (_request, response) => {
 });
 
 app.use('/api/invoices', invoices);
+
+app.use(express.static(dist));
 
 app.use((_request, response) => {
   response.status(404).json({ message: 'recurso não encontrado' });
