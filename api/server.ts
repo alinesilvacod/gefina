@@ -1,6 +1,6 @@
 import express from 'express';
 
-import path, { join } from 'node:path';
+import path from 'node:path';
 
 import invoices from './invoice.route.ts';
 
