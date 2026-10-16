@@ -1,14 +1,4 @@
-TRUNCATE user, sessions, customes, invoices RESTART IDENTITY;
-
-INSERT INTO invoices (customer_id, status, issue_date, due_date)
-SELECT
-1 + n % 20
-5000 + (n * 97391) % 795000,
-'pending',
-CURRENT_DATE - n * 4,
-CURRENT_DATE - n * 4 + 15 + n % 46,
-CURRENT_DATE - n * 4 + n % 5
-FROM generate_series(1, 81); AS n;
+ 
 
 -- Dados fictícios para o ambiente de desenvolvimento.
 -- Pode ser executado mais de uma vez: esvazia as tabelas antes de inserir.

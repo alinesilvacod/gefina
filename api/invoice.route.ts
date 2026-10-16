@@ -8,23 +8,45 @@ import {
 const router = Router();
 
 router.get('/', async (_request, response) => {
+ try {
   const invoices = await findAllInvoices();
 
   response.status(200).json(invoices);
+ } catch (error) {
+    console.error(error);
+
+    response.status(500).json({error: {
+status:500,
+message: 'não foi possível carregar as faturas.'
+   }})
+  }
 });
 
 router.get('/:id',async (request, response) => {
+  try {
   const id = Number (request.params.id);
 
   const invoice = await findInvoiceById(id);
-  if(!invoice) response .status(400).json({error:{
+
+  if(!invoice) response.status(400).json({ error:{
     status:404,
     message:'fatura não encontrada.'
-  
   }});
- 
-response.status(200).json(invoice);
+  
+  response.status(200).json(invoice);
+ } catch (error) {
+    console.error(error);
 
+    response.status(500).json({error: {
+status:500,
+message: 'não foi possível carregar as faturas.'
+   }})
+  }
 });
+
+ 
+ 
+
+
 
 export default router;
