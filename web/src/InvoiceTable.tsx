@@ -11,11 +11,11 @@ export default function InvoiceTable(props: InvoiceTableProps ) {
         
         <thead>
             <tr>
-            <td>cliente</td>
-            <td>valor</td>
-            <td>datad de emisão</td>
-            <td>data de vencimento</td>
-            <td>situação</td>
+            <th>cliente</th>
+            <th>valor</th>
+            <th>datad de emisão</th>
+            <th>data de vencimento</th>
+            <th>situação</th>
 </tr>
         </thead>
         <tbody>

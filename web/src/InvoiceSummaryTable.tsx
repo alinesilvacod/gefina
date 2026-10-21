@@ -24,8 +24,8 @@ export default function InvoiceSummaryTable(props: InvoiceSummaryTableProps) {
                 {props.invoices.map(invoice => {
                     <td>{invoice.customer.name}</td>
                     return <tr key={invoice.id}> 
-                        <td>{formatCurrency(invoice.amount)}</td>
-                        <td>{formatDate(props.date(invoice))}</td>
+                        <td className='numeric'>{formatCurrency(invoice.amount)}</td>
+                        <td className='numeric'>{formatDate(props.date(invoice))}</td>
                     </tr>
                 })}
             </tbody>
