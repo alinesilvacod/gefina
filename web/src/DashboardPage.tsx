@@ -38,33 +38,32 @@ if (error|| dashboard === null ) return <p>{error}</p>;
 
 return <div>
 
-
 <h1>Painel inicial</h1>
 
-<div>
+<div className='summary-cards'>
 <SummaryCard label = 'Total recebido:' value= {formatCurrency(dashboard.totals.paid)} />
 <SummaryCard label = 'Total pendente:' value= {formatCurrency(dashboard.totals.pending)} />
 <SummaryCard label = 'Faturas' value= {String(dashboard.totals.invoicesCount)} />
 <SummaryCard label = 'Clientes' value= {String(dashboard.totals.customerCount)} />
 </div>
-<div>
+
+<div className='summary-tables'>
   <InvoiceSummaryTable
   title='faturas recentes'
   dateLabel='emisão'
   invoices={dashboard.recetInvoices}
   date={(invoice)=> invoice.issueDate}
   ></InvoiceSummaryTable>
-</div>
 
-<div>
 <InvoiceSummaryTable
   title='faturas recentes'
   dateLabel='vencimento'
   invoices={dashboard.overdueInvoices}
   date={(invoice)=> invoice.dueDate}
   />
-</div>
 
 </div>
+
+</div>;
 
 }
