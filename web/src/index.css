@@ -29,9 +29,17 @@
   --text-xl: 1.5rem;
 
   --font-sans:'inter', system-ui, sans-serif;
+
+  --sidebar-width: 240px;
 }
 
-
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
 
 
 body {
@@ -59,6 +67,35 @@ th {
 
 a {
     color: var(--color-primary);
+}
+
+.sidebar {
+    position: fixed;
+    width: var(--sidebar-width);
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction:column;
+    gap:var(--space-8);
+    padding:var(--space-6);
+    background-color:var(--color-suface);
+    border: 1px solid var(--color-border);
+}
+
+.brand {
+    font-size: var(--text-xl);
+    font-weight: 600;
+}
+
+.menu ul {
+display: flex;
+flex-direction: column;
+gap: var(--space-1);
+}
+
+.content {
+    margin-left: var(--sidebar-width);
+    padding: var(--space-8);
 }
 
 .numeric {

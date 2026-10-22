@@ -10,16 +10,19 @@ import InvoicePage from "./InvoicePage.tsx";
 
 export default function App() {
     return <BrowserRouter>
-        <nav>
-            <Link to='/'>Painel inicial</Link>
-            <Link to='/faturas'>faturas</Link>
-        </nav>
+        <aside className='sidebar'>
+            <header className='brand'></header>
 
-        <Routes>
-            <Route path='/' element={<DashboardPage />} />
-            <Route path='faturas' element={<InvoicePage />} />
-        </Routes>
-        <DashboardPage />
-        <InvoicePage />
+            <nav className='menu'>
+                <Link to='/'>Painel inicial</Link>
+                <Link to='/faturas'>faturas</Link>
+            </nav>
+        </aside>
+        <main className='content'>
+            <Routes>
+                <Route path='/' element={<DashboardPage />} />
+                <Route path='faturas' element={<InvoicePage />} />
+            </Routes>
+        </main>
     </BrowserRouter>
 }
