@@ -7,6 +7,7 @@ import dashboard from './dashboard.route.ts';
 import invoices from './invoice.route.ts';
 
 const app = express();
+app.use(express.json());
 
 const dist = path.join(import.meta.dirname, '..', 'web', 'dist');
 
@@ -14,7 +15,7 @@ app.use((requet, _response, next) => {
   console.log(`${requet.method} ${requet.url}`);
   next();
 });
-app.get('api/health', async (_request, response) => {
+app.get('/api/health', async (_request, response) => {
   try {
  const connect = await pool.query('SELECT datname FROM pg_database WHERE oid = 5;');
 
