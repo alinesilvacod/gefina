@@ -3,10 +3,14 @@ import express from 'express';
 import path from 'node:path';
 
 import pool from './database.ts';
+
 import dashboard from './dashboard.route.ts';
 import invoices from './invoice.route.ts';
 
+import handleError from './error.middleware.ts';
+
 const app = express();
+app.use(express.json());
 
 const dist = path.join(import.meta.dirname, '..', 'web', 'dist');
 
@@ -14,7 +18,7 @@ app.use((requet, _response, next) => {
   console.log(`${requet.method} ${requet.url}`);
   next();
 });
-app.get('api/health', async (_request, response) => {
+app.get('/api/health', async (_request, response) => {
   try {
  const connect = await pool.query('SELECT datname FROM pg_database WHERE oid = 5;');
 
@@ -49,4 +53,7 @@ app.use((request,response,next)=> {
 app.use((_request, response) => {
   response.status(404).json({ message: 'recurso não encontrado' });
 });
+
+app.use(handleError);
+
 app.listen(Number(process.env.PORT) || 3000);
