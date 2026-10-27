@@ -12,6 +12,12 @@ GET {{host}}/api/invoices
 ### Buscar faturas pelo indentificador
 GET {{host}}/api/invoices/1
 
+### busca fatura por indetificador indisponivel
+GET {{host}}/api/invoices/99999
+
+### buscar fatura por indetificador iválido
+GET {{host}}/api/invoices/abc
+
 ### Criar fatura
 POST {{host}}/api/invoices
 content-Type: application/json
