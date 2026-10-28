@@ -1,43 +1,97 @@
-import {useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
-import type {Invoice} from './invoiceType.ts';
-
+import type { Invoice, InvoiceInput } from './invoiceType.ts';
 import InvoiceTable from './InvoiceTable.tsx';
+import InvoiceForm from './invoiceForm.tsx';
 
-export default function InvoicePage () {
-const [invoices, setInvoices] = useState<Invoice[]>([]);
-const [error,setError] = useState<string | null>(null);
-const [loading, setLoading] = useState(true);
+import { getAllInvoices, createInvoice } from './invoiceApi.ts';
+import type { CustomerOption } from './customerType.ts';
 
-useEffect(() => {async function getInvoices() {
-  try {
-   const response = await fetch('/api/invoices');
-  if (!response.ok) {
-    setError('não foi possivel carregar sua fatura.');
-    setLoading(false);
-    return;
+export default function InvoicePage() {
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [CustomersOption, setCustomersOptions] = useState<CustomerOption[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getInvoices() {
+      try {
+        const datas = await getAllInvoices();
+        setInvoices(datas);
+
+      } catch (error) {
+        if (error instanceof Error) setError(error.message);
+      }
+      setLoading(false);
+    }
+
+    getInvoices();
+
+  }, []);
+
+  useEffect(() => {
+    async function getCustomersOptions() {
+      try {
+        const response = await fetch('/api/customers/options');
+
+        if (!response.ok) throw new Error('falha ao buscar clientes.');
+
+        const datas = await response.json();
+
+        setCustomersOptions(datas);
+      } catch (error) {
+        if (error instanceof Error) setError(error.message);
+      }
+    }
+
+    getCustomersOptions();
+  }, []);
+
+  async function refresh() {
+    try {
+      const datas = await getAllInvoices();
+      setInvoices(datas);
+
+    } catch (error) {
+      if (error instanceof Error) throw error;
+    }
   }
 
+  async function submit(datas: InvoiceInput) {
+    setBusy(true);
+    setFormError(null);
+    try {
+      await createInvoice(datas);
+      await refresh();
+    } catch (error) {
+      if (error instanceof Error) setFormError(error.message);
+    }
 
-const datas = await response.json();
-setInvoices(datas);
-  } catch {
-setError('não foi possivel carregar sua fatura.');
-  } 
-  setLoading (false);
-}
+    setBusy(false);
 
-getInvoices();
+  }
 
-}, []);
+  if (loading) return <p>Carregarndo faturas...</p>
+  if (error) return <p>{error}</p>;
 
-if (loading) return <p>Carregarndo faturas...</p>
-if (error) return <p>{error}</p>;
+  return <>
+    <h1>Faturas</h1>
 
-return <>
-<h1>Faturas</h1>
-<InvoiceTable invoices = {invoices}/>
-</>
+    <div className='panel'>
+      <InvoiceTable invoices={invoices} />
+    </div>
 
-    
+    <InvoiceForm
+      invoice={null}
+      customers={CustomersOption}
+      error={formError}
+      onDelete={() => null}
+      onCancel={() => null}
+      onSumit={submit}
+      busy={busy}
+
+    />
+  </>
 }
