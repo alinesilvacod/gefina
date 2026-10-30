@@ -36,7 +36,7 @@ export default function InvoiceForm(props: InvoiceProps) {
   return <form onSubmit={handleSubmit}>
     <h2>{!props.invoice ? 'criar fatura' : 'Editar fatura'}</h2>
 
-    <div>
+    <div className='field'>
       <label htmlFor='customer'>Cliente</label>
       <select
         id='customer'
@@ -51,7 +51,7 @@ export default function InvoiceForm(props: InvoiceProps) {
         })}
       </select>
     </div>
-    <div>
+    <div className='field'>
       <label htmlFor='amount'>Valor</label>
       <input
         id='amount'
@@ -63,7 +63,8 @@ export default function InvoiceForm(props: InvoiceProps) {
         required
       />
     </div>
-    <div>
+<div className='horizontal-fields'>
+    <div className='field'>
       <label htmlFor='status'>Situação</label>
       <select
         id='status'
@@ -74,7 +75,7 @@ export default function InvoiceForm(props: InvoiceProps) {
         <option value="paid">Pago</option>
       </select>
     </div>
-    <div>
+    <div className='field'>
       <label htmlFor="issueDate">Emisão</label>
       <input
         id='issueDate'
@@ -84,7 +85,7 @@ export default function InvoiceForm(props: InvoiceProps) {
         required
       />
     </div>
-    <div>
+    <div className='field'>
       <label htmlFor="dueDate">Vencimento</label>
       <input
         id='dueDate'
@@ -94,21 +95,26 @@ export default function InvoiceForm(props: InvoiceProps) {
         required
       />
     </div>
+</div>
 
-    {!props.error ? null : <p>{props.error}</p>}
 
-    <div>
+    {!props.error ? null : <p className='form-error'>{props.error}</p>}
+
+    <div className='form-actions'>
       {!props.invoice ? null : <button
+        className='button-danger'
         type='button'
         disabled={props.busy}
         onClick={props.onDelete}
       >Excluir</button>}
       <button
+        className='button-secondary'
         type='button'
         disabled={props.busy}
         onClick={props.onCancel}
       >Cancelar</button>
       <button
+        className='button-primary'
         type='submit'
         disabled={props.busy}
       >{props.busy ? 'salvando...' : 'salvar'}</button>
