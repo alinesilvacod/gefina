@@ -1,4 +1,4 @@
-import { useState, type SubmitEvent } from 'react';
+import { useState, type SetStateAction, type SubmitEvent } from 'react';
 
 import type { Invoice, InvoiceStatus, InvoiceInput } from './invoiceType';
 
@@ -9,6 +9,9 @@ interface InvoiceProps {
   customers: CustomerOption[];
   error: string | null;
   onDelete: () => void;
+  confirmDelete: boolean;
+  setConfirmDelete: React.Dispatch<SetStateAction<boolean>>;
+  confirm: () => void;
   onCancel: () => void;
   onSumit: (values: InvoiceInput) => void;
   busy: boolean;
@@ -22,7 +25,8 @@ export default function InvoiceForm(props: InvoiceProps) {
   const [dueDate, setdueDate] = useState(!props.invoice ? '' : props.invoice.dueDate);
 
   const handleSubmit = (event: SubmitEvent) => {
-    event.preventDefault
+    event.preventDefault();
+    props.setConfirmDelete(false);
 
     props.onSumit({
       customerId: Number(customerId),
@@ -107,7 +111,7 @@ export default function InvoiceForm(props: InvoiceProps) {
         type='button'
         disabled={props.busy}
         onClick={props.onDelete}
-      >Excluir</button>}
+      >{props.busy && props.confirmDelete ?'excluindo' : 'Excluir'}</button>}
       <button
         className='button-secondary'
         type='button'
@@ -118,7 +122,23 @@ export default function InvoiceForm(props: InvoiceProps) {
         className='button-primary'
         type='submit'
         disabled={props.busy}
-      >{props.busy ? 'salvando...' : 'salvar'}</button>
+      >{props.busy && !props.confirmDelete? 'salvando...' : 'salvar'}</button>
     </div>
+
+    {props.confirmDelete && <div className='confirm-form'>
+      <p>A exclusão é definitiva e não pode ser desfeita. deseja prosseguir?</p>
+      <button
+         className='button-secondary'
+         type='button'
+         disabled={props.busy}
+         onClick={() => props.setConfirmDelete(false)}
+      >Não</button>
+      <button
+        className='button-danger'
+        type='button'
+        disabled={props.busy}
+        onClick={props.confirm}
+      >Sim</button>
+    </div>}
   </form>;
 }

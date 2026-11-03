@@ -37,7 +37,7 @@ export async function updateInvoice(id: number,datas:InvoiceInput): Promise<void
 }
 
 export async function deleteInvoice(id: number): Promise<void> {
-    const response = await fetch(`/api/invoice/${id}`, {method: 'DELETE'});
+    const response = await fetch(`/api/invoices/${id}`, {method: 'DELETE'});
 
     if (!response.ok) throw new Error('falha ao excluir fatura.');
 }
