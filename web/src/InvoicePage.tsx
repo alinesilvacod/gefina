@@ -4,7 +4,7 @@ import type { Invoice, InvoiceInput } from './invoiceType.ts';
 import InvoiceTable from './InvoiceTable.tsx';
 import InvoiceForm from './invoiceForm.tsx';
 
-import { getAllInvoices, createInvoice } from './invoiceApi.ts';
+import { getAllInvoices, createInvoice, updateInvoice } from './invoiceApi.ts';
 import type { CustomerOption } from './customerType.ts';
 
 export default function InvoicePage() {
@@ -15,10 +15,12 @@ export default function InvoicePage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [dialogContent, setDialogContent] = useState(false);
+  const [target, setTarget]= useState<Invoice | null>(null);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
   
-  function openModal() {
+  function openModal(invoice: Invoice | null) {
+    setTarget(invoice);
     setFormError(null);
     setDialogContent(true);
 
@@ -76,8 +78,14 @@ export default function InvoicePage() {
   async function submit(datas: InvoiceInput) {
     setBusy(true);
     setFormError(null);
+
     try {
-      await createInvoice(datas);
+      if (!target) {
+        await createInvoice(datas);
+      } else {
+        await updateInvoice(target.id, datas);
+      }
+
       closeModal();
       await refresh();
     } catch (error) {
@@ -94,11 +102,18 @@ export default function InvoicePage() {
   return <>
   <header className='page-header'>
     <h1>Faturas</h1>
-    <button className='button-primary' onClick={openModal}>Nova fatura</button>
+    <button
+     className='button-primary'
+     type='button'
+      onClick={() => openModal(null)}
+      >Nova fatura</button>
     </header>
 
     <div className='panel'>
-      <InvoiceTable invoices={invoices} />
+      <InvoiceTable 
+      invoices={invoices}
+      edit={openModal}
+       />
     </div>
 
 <dialog
@@ -107,7 +122,7 @@ className='invoice-modal'
  onClose={() => setDialogContent(false)}
  >
   {dialogContent && <InvoiceForm
-      invoice={null}
+      invoice={target}
       customers={CustomersOption}
       error={formError}
       onDelete={() => null}
