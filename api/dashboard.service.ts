@@ -2,12 +2,13 @@ import pool from './database.ts';
 
 import {
      type Invoice,
-     type InvoiceStatus,
      findRecentInvoices,
      findOverdueInvoices
     } from './invoice.service.ts';
 
-async function sumAmountBysstatus(status:InvoiceStatus): Promise<number>{
+    import type { invoiceStatus } from './invoice.schema.ts';
+
+async function sumAmountBysstatus(status:invoiceStatus): Promise<number>{
 const  connect = await pool.query(
     'SELECT COALESCE(SUM(amount), 0):: int AS total FROM invoices WHERE status = $1;',
     [status]

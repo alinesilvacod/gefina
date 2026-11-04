@@ -9,6 +9,8 @@ import {
 
 } from './invoice.service.ts';
 
+import { invoiceSchema, toFieldErrors } from './invoice.schema.ts';
+
 const router = Router();
 
 function parseId(value:string): number | undefined {
@@ -48,15 +50,21 @@ router.get('/:id',async (request, response) => {
 });
 
  router.post('/', async (request, response) => {
-  const invoice = await insertInvoice(request.body);
-    if (!invoice) response.status(400).json({error: {
-      status:404,
-      message: 'fatura não encontrada.'
-  }});
+const result = invoiceSchema.safeParse(request.body);
 
-  response.status(201).json(invoice);
-  }
- );
+if (!result.success) {
+  return response.status(400).json({
+    error: {
+      status:400,
+      message:'dados invalidos',
+      fields:toFieldErrors(result.error)
+    }
+  });
+}
+   const invoice = await insertInvoice(result.data);
+
+   response.status(201).json(invoice);
+  });
  
 router.put('/:id', async (request,response) => {
    const id = parseId(request.params.id);
