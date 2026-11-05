@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 
-import type { Invoice, InvoiceInput } from './invoiceType.ts';
+import type { Invoice, InvoiceInput, InvoiceFieldErrors} from './invoiceType.ts';
 import InvoiceTable from './InvoiceTable.tsx';
 import InvoiceForm from './invoiceForm.tsx';
 
@@ -11,6 +11,7 @@ export default function InvoicePage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [CustomersOption, setCustomersOptions] = useState<CustomerOption[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setfieldErrors]= useState<InvoiceFieldErrors>({});
   const [busy, setBusy] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -82,7 +83,9 @@ export default function InvoicePage() {
 
     try {
       if (!target) {
-        await createInvoice(datas);
+       const failure = await createInvoice(datas);
+
+       if (failure) return setfieldErrors(failure.fields);
       } else {
         await updateInvoice(target.id, datas);
       }
@@ -91,9 +94,10 @@ export default function InvoicePage() {
       await refresh();
     } catch (error) {
       if (error instanceof Error) setFormError(error.message);
+    } finally {
+      setBusy(false);
     }
 
-    setBusy(false);
 
   }
 
@@ -143,6 +147,7 @@ className='invoice-modal'
  onClose={() => {
   setDialogContent(false);
   setConfirmDelete(false);
+  setfieldErrors({});
  }}
  >
 
@@ -150,6 +155,7 @@ className='invoice-modal'
       invoice={target}
       customers={CustomersOption}
       error={formError}
+      fieldErrors={fieldErrors}
       onDelete={() => setConfirmDelete(true)}
       confirmDelete={confirmDelete}
       setConfirmDelete={setConfirmDelete}

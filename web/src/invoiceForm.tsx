@@ -1,13 +1,18 @@
 import { useState, type SetStateAction, type SubmitEvent } from 'react';
 
-import type { Invoice, InvoiceStatus, InvoiceInput } from './invoiceType';
-
+import type {
+  Invoice,
+  InvoiceStatus,
+  InvoiceInput,
+  InvoiceFieldErrors
+} from './invoiceType';
 import type { CustomerOption } from './customerType';
 
 interface InvoiceProps {
   invoice: Invoice | null;
   customers: CustomerOption[];
   error: string | null;
+  fieldErrors: InvoiceFieldErrors;
   onDelete: () => void;
   confirmDelete: boolean;
   setConfirmDelete: React.Dispatch<SetStateAction<boolean>>;
@@ -18,7 +23,7 @@ interface InvoiceProps {
 }
 
 export default function InvoiceForm(props: InvoiceProps) {
-  const [customerId, setCustomersId] = useState(!props.invoice ? '' : props.invoice.customer.id);
+  const [customerId, setCustomersId] = useState(!props.invoice ? undefined : String(props.invoice.customer.id));
   const [amount, setAmount] = useState(!props.invoice ? '' : (props.invoice.amount / 100).toFixed(2));
   const [status, seTstatus] = useState<InvoiceStatus>(!props.invoice ? 'pending' : props.invoice.status);
   const [issueDate, setIssueDate] = useState(!props.invoice ? '' : props.invoice.issueDate);
@@ -46,12 +51,13 @@ export default function InvoiceForm(props: InvoiceProps) {
         id='customer'
         value={customerId}
         onChange={(event) => setCustomersId(event.target.value)}
+        required
       >
-        <option>selecione um cliente</option>
+        <option value=''>selecione um cliente</option>
         {props.customers.map((customer) => {
           return <option key={customer.id} value={customer.id}>
             {customer.name} — {customer.email}
-          </option>
+          </option>;
         })}
       </select>
     </div>
@@ -67,40 +73,40 @@ export default function InvoiceForm(props: InvoiceProps) {
         required
       />
     </div>
-<div className='horizontal-fields'>
-    <div className='field'>
-      <label htmlFor='status'>Situação</label>
-      <select
-        id='status'
-        value={status}
-        onChange={(event) => seTstatus(event.target.value as InvoiceStatus)}
-      >
-        <option value='pending'>Pendente</option>
-        <option value="paid">Pago</option>
-      </select>
+    <div className='horizontal-fields'>
+      <div className='field'>
+        <label htmlFor='status'>Situação</label>
+        <select
+          id='status'
+          value={status}
+          onChange={(event) => seTstatus(event.target.value as InvoiceStatus)}
+        >
+          <option value='pending'>Pendente</option>
+          <option value="paid">Pago</option>
+        </select>
+      </div>
+      <div className='field'>
+        <label htmlFor="issueDate">Emisão</label>
+        <input
+          id='issueDate'
+          type='date'
+          value={issueDate}
+          onChange={(event) => setIssueDate(event.target.value)}
+          required
+        />
+      </div>
+      <div className='field'>
+        <label htmlFor="dueDate">Vencimento</label>
+        <input
+          id='dueDate'
+          type='date'
+          value={dueDate}
+          min={issueDate}
+          onChange={(event) => setdueDate(event.target.value)}
+          required
+        />
+      </div>
     </div>
-    <div className='field'>
-      <label htmlFor="issueDate">Emisão</label>
-      <input
-        id='issueDate'
-        type='date'
-        value={issueDate}
-        onChange={(event) => setIssueDate(event.target.value)}
-        required
-      />
-    </div>
-    <div className='field'>
-      <label htmlFor="dueDate">Vencimento</label>
-      <input
-        id='dueDate'
-        type='date'
-        value={dueDate}
-        min={issueDate}
-        onChange={(event) => setdueDate(event.target.value)}
-        required
-      />
-    </div>
-</div>
 
 
     {!props.error ? null : <p className='form-error'>{props.error}</p>}
@@ -111,7 +117,7 @@ export default function InvoiceForm(props: InvoiceProps) {
         type='button'
         disabled={props.busy}
         onClick={props.onDelete}
-      >{props.busy && props.confirmDelete ?'excluindo' : 'Excluir'}</button>}
+      >{props.busy && props.confirmDelete ? 'excluindo' : 'Excluir'}</button>}
       <button
         className='button-secondary'
         type='button'
@@ -122,16 +128,16 @@ export default function InvoiceForm(props: InvoiceProps) {
         className='button-primary'
         type='submit'
         disabled={props.busy}
-      >{props.busy && !props.confirmDelete? 'salvando...' : 'salvar'}</button>
+      >{props.busy && !props.confirmDelete ? 'salvando...' : 'salvar'}</button>
     </div>
 
     {props.confirmDelete && <div className='confirm-form'>
       <p>A exclusão é definitiva e não pode ser desfeita. deseja prosseguir?</p>
       <button
-         className='button-secondary'
-         type='button'
-         disabled={props.busy}
-         onClick={() => props.setConfirmDelete(false)}
+        className='button-secondary'
+        type='button'
+        disabled={props.busy}
+        onClick={() => props.setConfirmDelete(false)}
       >Não</button>
       <button
         className='button-danger'
@@ -140,5 +146,12 @@ export default function InvoiceForm(props: InvoiceProps) {
         onClick={props.confirm}
       >Sim</button>
     </div>}
-  </form>;
-}
+
+    {props.error && <p className='form-error'>{props.error}</p>}
+    {props.fieldErrors.customerId && <p className='form-error'>{props.fieldErrors.customerId}</p>}
+    {props.fieldErrors.amount && <p className='form-error'>{props.fieldErrors.amount}</p>}
+    {props.fieldErrors.status && <p className='form-error'>{props.fieldErrors.status}</p>}
+    {props.fieldErrors.issueDate && <p className='form-error'>{props.fieldErrors.issueDate}</p>}
+    {props.fieldErrors.dueDate && <p className='form-error'>{props.fieldErrors.dueDate}</p>}
+    </form>
+    }

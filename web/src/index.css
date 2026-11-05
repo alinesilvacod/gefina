@@ -261,6 +261,11 @@ form {
     flex-grow: 1;
   }
 
+  .form-error {
+    font-size:var(--text-sm);
+    color: var(--color-overdue);
+  }
+
   inpunt,
   select,
   button {

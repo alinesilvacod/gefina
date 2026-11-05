@@ -1,6 +1,7 @@
 import pool from './database.ts';
 
-export type InvoiceStatus = 'pending' | 'paid';
+import type {InvoiceInput,invoiceStatus} from './invoice.schema.ts';
+
 type InvoiceSituation = 'pending' | 'paid' | 'overdue';
 
 interface Customer {
@@ -12,7 +13,7 @@ interface Customer {
 export interface Invoice {
   id: number;
   amount: number;
-  status: InvoiceStatus;
+  status: invoiceStatus;
   situation: InvoiceSituation;
   issueDate: string;
   dueDate: string;
@@ -22,7 +23,7 @@ export interface Invoice {
 interface InvoiceRow {
   id: number;
   amount: number;
-  status: InvoiceStatus;
+  status: invoiceStatus;
   situation: InvoiceSituation;
   issue_date: string;
   due_date: string;
@@ -31,13 +32,7 @@ interface InvoiceRow {
   customer_email: string;
 }
 
-interface invoiceInput {
-  customerId: number;
-  amount: number;
-  status: InvoiceStatus;
-  issueDate: string;
-  dueDate: string;
-}
+
 
 const baseQuery = `
   SELECT
@@ -128,7 +123,7 @@ export async function findOverdueInvoices(): Promise<Invoice[]> {
   return toInvoices(connect.rows);
 }
 
-export async function insertInvoice(datas: invoiceInput): Promise<Invoice | undefined> {
+export async function insertInvoice(datas: InvoiceInput): Promise<Invoice | undefined> {
   const connect = await pool.query<{id: number}>(
 `
 INSERT INTO invoices (customer_id, amount, status, issue_date,due_date)
@@ -144,7 +139,7 @@ return await findInvoiceById(connect.rows[0].id);
 
 export async function modifyInvoice(
   id: number,
-  datas: invoiceInput
+  datas: InvoiceInput
 ): Promise<Invoice | undefined> {
   const connect = await pool.query<{id: Number}>(
     `
