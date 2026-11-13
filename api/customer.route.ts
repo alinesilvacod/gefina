@@ -1,14 +1,13 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { findCustomersOptions } from "./customer.service.ts";
+import { findCustomersOptions } from './customer.service.ts';
 
-const router = Router ();
+const router = Router();
 
-router.get('/options',async (_request,response) => {
-    const CustomersOption = await findCustomersOptions();
+router.get('/options', async (_request, response) => {
+  const CustomersOption = await findCustomersOptions();
 
-    response.status(200).json(CustomersOption);
-
+  response.status(200).json(CustomersOption);
 });
 
 export default router;
