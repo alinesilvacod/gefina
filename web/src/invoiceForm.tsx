@@ -104,7 +104,7 @@ export default function InvoiceForm(props: InvoiceProps) {
           </select>
         </div>
         <div className="field">
-          <label htmlFor="issueDate">Emisão</label>
+          <label htmlFor="issueDate">Emissão</label>
           <input
             id="issueDate"
             type="date"
@@ -157,8 +157,8 @@ export default function InvoiceForm(props: InvoiceProps) {
           disabled={props.busy}
         >
           {props.busy && !props.confirmDelete
-            ? 'salvando...'
-            : 'salvar'}
+            ? 'Salvando...'
+            : 'Salvar'}
         </button>
       </div>
 
