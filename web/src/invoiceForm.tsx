@@ -30,7 +30,7 @@ export default function InvoiceForm(props: InvoiceProps) {
     !props.invoice ? undefined : String(props.invoice.customer.id),
   );
   const [amount, setAmount] = useState(
-    !props.invoice ? '' : (props.invoice.amount / 100).toFixed(2),
+    !props.invoice ? undefined: (props.invoice.amount / 100).toFixed(2),
   );
   const [status, seTstatus] = useState<InvoiceStatus>(
     !props.invoice ? 'pending' : props.invoice.status,
@@ -104,7 +104,7 @@ export default function InvoiceForm(props: InvoiceProps) {
           </select>
         </div>
         <div className="field">
-          <label htmlFor="issueDate">Emisão</label>
+          <label htmlFor="issueDate">Emissão</label>
           <input
             id="issueDate"
             type="date"
@@ -125,10 +125,6 @@ export default function InvoiceForm(props: InvoiceProps) {
           />
         </div>
       </div>
-
-      {!props.error ? null : (
-        <p className="form-error">{props.error}</p>
-      )}
 
       <div className="form-actions">
         {!props.invoice ? null : (
@@ -157,8 +153,8 @@ export default function InvoiceForm(props: InvoiceProps) {
           disabled={props.busy}
         >
           {props.busy && !props.confirmDelete
-            ? 'salvando...'
-            : 'salvar'}
+            ? 'Salvando...'
+            : 'Salvar'}
         </button>
       </div>
 
