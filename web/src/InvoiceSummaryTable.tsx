@@ -12,31 +12,32 @@ interface InvoiceSummaryTableProps {
 export default function InvoiceSummaryTable(
   props: InvoiceSummaryTableProps,
 ) {
+  const base = 'p-3 border-b border-border'
   return (
-    <div className="panel">
-      <h2>{props.title}</h2>
-      <table>
+    <div className='flex-1 p-4 bg-surface border-border rounded-surface'>
+      <h2 className='text-xl fonte-semibold'>{props.title}</h2>
+      <table className='w-full border-collapse'>
         <thead>
           <tr>
-            <th>Cliente</th>
-            <th>Valor</th>
-            <th className="numeric-date">{props.dateLabel}</th>
+            <th className={`${base} text-sm text-left font-medium text-text-muted`}>Cliente</th>
+            <th className={`${base} text-sm text-left font-medium text-text-muted`}>Valor</th>
+            <th className={`${base} text-sm font-medium text-text-muted`}>{props.dateLabel}</th>
           </tr>
         </thead>
         <tbody>
-          {props.invoices.map((invoice) => {
-            <td>{invoice.customer.name}</td>;
-            return (
-              <tr key={invoice.id}>
-                <td className="numeric">
-                  {formatCurrency(invoice.amount)}
-                </td>
-                <td className="numeric numeric-date">
-                  {formatDate(props.date(invoice))}
-                </td>
-              </tr>
-            );
-          })}
+          {props.invoices.map((invoice) => (
+            <tr key={invoice.id}>
+              <td className={base}>{invoice.customer.name}</td>
+
+              <td className={`${base} tabular-nums`}>
+                {formatCurrency(invoice.amount)}
+              </td>
+
+              <td className={`${base} text-center tabular-nums`}>
+                {formatDate(props.date(invoice))}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

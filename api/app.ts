@@ -21,7 +21,7 @@ app.use((requet, _response, next) => {
 });
 app.get('/api/health', async (_request, response) => {
   try {
-    await prisma.$queryRaw`SELETE 1 ;`;
+    await prisma.$queryRaw`SELECTE 1 ;`;
     response.status(200).json({
       status: 'Server is running.',
       database: 'Database available.',
