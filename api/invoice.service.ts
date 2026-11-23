@@ -41,8 +41,8 @@ function formatInvoice(record: InvoiceWithCustomer): Invoice {
     amount: record.amount,
     status: record.status as invoiceStatus,
     situation,
-    issueDate: record.issueDate.toDateString().slice(0, 10),
-    dueDate: record.dueDate.toDateString().slice(0, 10),
+    issueDate: record.issueDate.toISOString().slice(0, 10),
+    dueDate: record.dueDate.toISOString().slice(0, 10),
     customer: {
       id: record.customer.id,
       name: record.customer.name,
