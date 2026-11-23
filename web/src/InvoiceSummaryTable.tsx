@@ -12,16 +12,28 @@ interface InvoiceSummaryTableProps {
 export default function InvoiceSummaryTable(
   props: InvoiceSummaryTableProps,
 ) {
-  const base = 'p-3 border-b border-border'
+  const base = 'p-3 border-b border-border';
   return (
-    <div className='flex-1 p-4 bg-surface border-border rounded-surface'>
-      <h2 className='text-xl fonte-semibold'>{props.title}</h2>
-      <table className='w-full border-collapse'>
+    <div className="flex-1 p-4 bg-surface border-border rounded-surface">
+      <h2 className="text-xl fonte-semibold">{props.title}</h2>
+      <table className="w-full border-collapse">
         <thead>
           <tr>
-            <th className={`${base} text-sm text-left font-medium text-text-muted`}>Cliente</th>
-            <th className={`${base} text-sm text-left font-medium text-text-muted`}>Valor</th>
-            <th className={`${base} text-sm font-medium text-text-muted`}>{props.dateLabel}</th>
+            <th
+              className={`${base} text-sm text-left font-medium text-text-muted`}
+            >
+              Cliente
+            </th>
+            <th
+              className={`${base} text-sm text-left font-medium text-text-muted`}
+            >
+              Valor
+            </th>
+            <th
+              className={`${base} text-sm font-medium text-text-muted`}
+            >
+              {props.dateLabel}
+            </th>
           </tr>
         </thead>
         <tbody>

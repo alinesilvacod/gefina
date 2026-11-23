@@ -11,12 +11,12 @@
       "semicolons": "always"
     }
   },
-  "css" :{
-    "parser":{
+  "css": {
+    "parser": {
       "tailwindDirectives": true
     },
     "formatter": {
-      "quoteStyle":"single"
+      "quoteStyle": "single"
     }
   },
   "linter": {
