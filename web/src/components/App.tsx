@@ -1,7 +1,7 @@
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router';
 
-import DashboardPage from './DashboardPage.tsx';
-import InvoicePage from './InvoicePage.tsx';
+import DashboardPage from '../components/DashboardPage.tsx';
+import InvoicePage from '../components/InvoicePage.tsx';
 
 export default function App() {
   function apply(state: boolean): string {
