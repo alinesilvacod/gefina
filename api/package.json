@@ -1,9 +1,9 @@
 {
   "type": "module",
   "scripts": {
-    "start": "node ./rsc/server.ts",
+    "start": "node ./src/server.ts",
     "check": "tsc --noEmit",
-    "dev": "node --watch --env-file=.env ./rsc/server.ts",
+    "dev": "node --watch --env-file=.env ./src/server.ts",
     "test": "vitest run",
     "postinstall": "prisma generate",
     "seed": "node --env-file=.env ./prisma/seed.ts",
